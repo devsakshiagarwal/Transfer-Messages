@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "TransferNotification"
+rootProject.name = "Transfer Messages"

@@ -7,12 +7,13 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.firebase.database.FirebaseDatabase
 import com.goyals.transfernotification.R
 import com.goyals.transfernotification.databinding.ActivityMainBinding
 import com.goyals.transfernotification.model.schema.Notification
+import com.goyals.transfernotification.utils.AppUtils
 
 class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun initViews() {
     notificationAdapter = NotificationAdapter(this)
+    notificationAdapter.setData(notificationList)
     binding.rvNotifications.apply {
       adapter = notificationAdapter
     }
@@ -57,19 +59,24 @@ class MainActivity : AppCompatActivity() {
         null)
     if (cursor?.moveToFirst()!!) { // must check the result to prevent exception
       do {
-        var msgData = ""
+        var message = ""
         for (idx in 0 until cursor.columnCount) {
-          msgData += " " + cursor.getColumnName(idx)
+          message += " " + cursor.getColumnName(idx)
             .toString() + ":" + cursor.getString(idx) + "\n"
         }
-        Log.d("tag", msgData)
-        notificationList.add(Notification(msgData.substringAfter("body:")
-          .substringBefore("service_center"), msgData.substringAfter("date:")
-          .substringBefore("\n"), msgData.substringAfter("service_center:")
-          .substringBefore("\n"), msgData.substringAfter("address:")
-          .substringBefore("\n")))
-        notificationAdapter.setData(notificationList)
+        val notification = AppUtils.getNotificationFromMessage(message)
+        addNotificationToFirebase(notification)
+        notificationList.add(notification)
+        notificationAdapter.notifyDataSetChanged()
       } while (cursor.moveToNext())
+      cursor.close()
     }
+  }
+
+  private fun addNotificationToFirebase(notification: Notification) {
+    val database = FirebaseDatabase.getInstance()
+    val myRef = database.getReference("notifications")
+    myRef.child(notification.time)
+      .setValue(notification)
   }
 }

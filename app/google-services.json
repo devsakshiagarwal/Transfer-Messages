@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "53313552229",
+    "project_id": "transfer-messages-3a2ea",
+    "storage_bucket": "transfer-messages-3a2ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53313552229:android:04d0ceccb6d0db6ba4eb8c",
+        "android_client_info": {
+          "package_name": "com.goyals.transfernotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "53313552229-ipra4afsd67bjio1479p6ql7772pva66.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goyals.transfernotification",
+            "certificate_hash": "742f9443031f476328987202ff04971062b144a5"
+          }
+        },
+        {
+          "client_id": "53313552229-j542kfr3pppipkb6qbustiasqnhmjksa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBozRZ6J7JgUSNMXfVvSknNT2i7JJH83NA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "53313552229-j542kfr3pppipkb6qbustiasqnhmjksa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
