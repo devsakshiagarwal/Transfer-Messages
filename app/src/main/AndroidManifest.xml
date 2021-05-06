@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.goyals.transfernotification">
 
   <uses-permission android:name="android.permission.INTERNET" />
@@ -20,19 +21,19 @@
       </intent-filter>
     </activity>
 
-    <!--    <service-->
-    <!--        android:name=".model.service.NotificationService"-->
-    <!--        android:enabled="true" />-->
+    <service
+        android:name=".model.service.NotificationService"
+        android:enabled="true" />
 
-    <!--    <receiver-->
-    <!--        android:name=".model.broadcast_receiver.RestartReceiver"-->
-    <!--        android:enabled="true"-->
-    <!--        android:exported="true"-->
-    <!--        tools:ignore="ExportedReceiver">-->
-    <!--      <intent-filter>-->
-    <!--        <action android:name="RestartReceiver" />-->
-    <!--      </intent-filter>-->
-    <!--    </receiver>-->
+    <receiver
+        android:name=".model.broadcast_receiver.RestartReceiver"
+        tools:ignore="ExportedReceiver"
+        android:enabled="true"
+        android:exported="true">
+      <intent-filter>
+        <action android:name="RestartReceiver" />
+      </intent-filter>
+    </receiver>
 
     <receiver
         android:name=".model.broadcast_receiver.SmsBroadcastReceiver"

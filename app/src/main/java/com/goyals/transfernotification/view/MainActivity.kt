@@ -1,8 +1,10 @@
 package com.goyals.transfernotification.view
 
 import android.Manifest
+import android.content.Context
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
     checkPermissions()
     readMessagesFromFirebase()
+    testMethod()
   }
 
   private fun checkPermissions() {
@@ -69,5 +72,20 @@ class MainActivity : AppCompatActivity() {
           .show()
       }
     })
+  }
+
+  private fun testMethod(): String {
+    val cursor: Cursor? =
+      contentResolver?.query(Uri.parse("content://sms/inbox"), null, null, null,
+        null)
+    var message = ""
+    if (cursor?.moveToFirst()!!) {
+      for (i in 0 until cursor.columnCount) {
+        message += " " + cursor.getColumnName(i)
+          .toString() + ":" + cursor.getString(i) + "\n"
+      }
+    }
+    cursor.close()
+    return message
   }
 }
