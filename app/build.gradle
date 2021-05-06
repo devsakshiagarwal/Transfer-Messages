@@ -58,6 +58,9 @@ dependencies {
   //google play services
   implementation "com.google.android.gms:play-services-auth:$google_play_auth_version"
   implementation "com.google.android.gms:play-services-auth-api-phone:$google_play_phone_version"
+  //dynamic permission
+  implementation "com.permissionx.guolindev:permissionx:$permissionx_version"
+  //testing
   testImplementation "junit:junit:$junit_version"
   androidTestImplementation "androidx.test.ext:junit:$test_junit_version"
 }

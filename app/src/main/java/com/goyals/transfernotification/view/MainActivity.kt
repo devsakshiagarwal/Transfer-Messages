@@ -1,12 +1,10 @@
 package com.goyals.transfernotification.view
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.database.FirebaseDatabase
@@ -14,6 +12,7 @@ import com.goyals.transfernotification.R
 import com.goyals.transfernotification.databinding.ActivityMainBinding
 import com.goyals.transfernotification.model.schema.Notification
 import com.goyals.transfernotification.utils.AppUtils
+import com.permissionx.guolindev.PermissionX
 
 class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
@@ -24,25 +23,6 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     initViews()
-    if (checkSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED) {
-      val permissions = arrayOf(Manifest.permission.READ_SMS)
-      requestPermissions(permissions, 101)
-    } else {
-      startSMSListener()
-    }
-  }
-
-  override fun onActivityResult(requestCode: Int,
-    resultCode: Int,
-    data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if (resultCode == Activity.RESULT_OK) {
-      when (requestCode) {
-        101 -> {
-          startSMSListener()
-        }
-      }
-    }
   }
 
   private fun initViews() {
@@ -51,9 +31,24 @@ class MainActivity : AppCompatActivity() {
     binding.rvNotifications.apply {
       adapter = notificationAdapter
     }
+    readMessages()
   }
 
-  private fun startSMSListener() {
+  private fun readMessages() {
+    PermissionX.init(this)
+      .permissions(Manifest.permission.READ_SMS)
+      .request { allGranted, _, deniedList ->
+        if (allGranted) {
+          startSmsContentProvider()
+        } else {
+          Toast.makeText(this, "These permissions are denied: $deniedList",
+            Toast.LENGTH_LONG)
+            .show()
+        }
+      }
+  }
+
+  private fun startSmsContentProvider() {
     val cursor: Cursor? =
       contentResolver.query(Uri.parse("content://sms/inbox"), null, null, null,
         null)
