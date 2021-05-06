@@ -34,14 +34,13 @@
     <!--      </intent-filter>-->
     <!--    </receiver>-->
 
-<!--    <receiver-->
-<!--        android:name=".model.broadcast_receiver.SmsBroadcastReceiver"-->
-<!--        android:enabled="true"-->
-<!--        android:exported="true">-->
-<!--      <intent-filter>-->
-<!--        <action android:name="android.provider.Telephony.SMS_RECEIVED"/>-->
-<!--      </intent-filter>-->
-<!--    </receiver>-->
+    <receiver
+        android:name=".model.broadcast_receiver.SmsBroadcastReceiver"
+        android:enabled="true">
+      <intent-filter android:priority="9999999">
+        <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+      </intent-filter>
+    </receiver>
   </application>
 
 </manifest>
